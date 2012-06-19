@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding: utf-8
-import sys, re, os, string
-sys.argv.append('View.txt')
+import sys, re, os, string, webbrowser
+
 try:
 	chapter = string.join(sys.argv[1].split(".")[0:-1])
 	data = open(sys.argv[1]).read()
@@ -62,6 +62,8 @@ data, n = re.subn(pats['config1'], html['code1'], data)
 print ("found ", n, " items")
 
 print ("Creating outfile %s " % outfile)
-print ("success"	 if open(outfile, 'w+').write(data) else "Failure")
+print ("success"	 if not open(outfile, 'w+').write(data) else "Failure")
+webbrowser.open_new(os.path.abspath(outfile))
+
 
 
