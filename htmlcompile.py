@@ -14,7 +14,7 @@ pats = { 'img'	: r"(\[image:([^\]]+)\])",
 			'h'	: r"^([^\n]*)\n",
 		'config0': r"(\[config\])",
 		'config1': r"(\[/config\])",
-		'list'	:	r"\s*\*\s*([^\n]*)\n"
+		'list'	:	r"^\s*\*\s*([^\n]*)\n"
 }
 imgtypes = ['png', 'jpg', 'jpeg', 'bmp']
 
