@@ -26,7 +26,7 @@ html = {
 </div> """, 
 		'p': r"\1<p>\2</p>\3", 
 		'h': r"<h1>\1</h1>\n\n", 
-		'code0': r"""<pre style="background:#2a2a2a; color:#f1d325; padding:13px;" class="">""",
+		'code0': r"""<pre style="background:#f0f0f0; color:#000000; padding:13px;" class="">""",
 		'code1': r"""</pre>""",
 		'list' : r"""<li>\1</li>\n"""
 	}
