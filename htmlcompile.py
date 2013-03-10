@@ -40,6 +40,8 @@ print ("Found images: ", images)
 ################################
 #	COMPILING
 ################################
+
+
 print ("Compiling headers")
 data = re.sub(pats['h'], html['h'], data)
 
@@ -67,6 +69,23 @@ print ("Compiling lists")
 data, n = re.subn(pats['list'], html['list'], data)
 print ("found ", n, " items")
 
+
+print ("Adding style")
+style = """
+	<style>
+	pre {
+		 white-space: pre-wrap;       /* css-3 */
+		 white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+		 white-space: -pre-wrap;      /* Opera 4-6 */
+		 white-space: -o-pre-wrap;    /* Opera 7 */
+		 word-wrap: break-word;       /* Internet Explorer 5.5+ */
+	}
+	</style>
+"""
+
+print ("Adding utf-8 encoding declaration")
+meta = """<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>"""
+data = meta + style + data
 
 print ("Creating outfile %s " % outfile)
 print ("success"	 if not open(outfile, 'w+').write(data) else "Failure")
