@@ -7,3 +7,31 @@ http://stackoverflow.com/questions/1061697/whats-the-easiest-way-to-escape-html-
 	Had to use a compiled regexp with flags and pass that to re.subn.
 
 	re.subn(re.compile("pattern here"), ...)
+
+	update: from re manual 2.6:
+		(?iLmsux)
+
+    ... the letters set the corresponding flags: re.I (ignore case), re.L (locale dependent), re.M (multi-line), re.S (dot matches all), re.U (Unicode dependent), and re.X (verbose), for the entire regular expression. 
+
+    ... This is useful if you wish to include the flags as part of the regular expression, instead of passing a flag argument to the re.compile() function.
+
+
+Found out about the existence of lookahead and lookbehind. Both positive and negative. Maybe this can solve the "no <p>'s in mi <pre>'s" bug?
+
+http://www.regular-expressions.info/lookaround.html
+
+
+However, it turned out that they only work on finite length strings. 
+
+Now I found this:
+
+(?:...)
+    A non-grouping version of regular parentheses. Matches whatever regular expression is inside the parentheses, but the substring matched by the group cannot be retrieved after performing a match or referenced later in the pattern.
+
+I seem to stumble upon these different methods at random. Its heurstic random, but random furthermore!
+
+Good quick-sheet for regexp:
+http://etutorials.org/shared/images/tutorials/tutorial_38/03fig01.jpg
+
+
+Dwelving down into the src of markdown, I found some nifty perl -e regexp black magic, nested regexp. Trying to find similar features in python yields: http://stackoverflow.com/questions/1099178/matching-nested-structures-with-regular-expressions-in-python

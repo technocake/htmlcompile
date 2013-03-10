@@ -13,7 +13,7 @@ except Exception as e:	print (""" Usage: htmlcompile <file> """, e);	sys.exit(1)
 
 imgfolder = 'images'
 pats = { 'img'	: r"(\[image:([^\]]+)\])", 
-			'p'	: r"(\n)(\s*.+?)(\n{2}|$)", 
+			'p'	: r"(\n)(.+?)(\n{2}|$)", 
 			'h'	: r"^([^\n]*)\n",
 		'config': re.compile(r"(\[config\])(.+?)(\[/config\])", flags=re.DOTALL),
 		'list'	: r"^\s*\*\s*([^\n]*)\n"
@@ -57,7 +57,16 @@ for i, match in enumerate(re.findall(pats['img'], data)):
 		data = data.replace(match[0], html['img'] % ( caption, imgdict[m], caption))
 
 print ("Compiling paragraphs")
-data,n  = re.subn(pats['p'], html['p'], data)
+# Isolating config snippets
+data2   = re.findall(pats['config'], data)
+data, n = re.subn(pats['config'], "1238placeholder1293", data)
+
+# the real paragraphs
+data, n = re.subn(pats['p'], html['p'], data)
+
+# Putting config snipets back in.
+for triple in data2: 
+	data = re.sub("1238placeholder1293", ''.join(map(str, triple)), data, 1)
 print ("found ", n, " items")
 
 
