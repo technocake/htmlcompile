@@ -1,20 +1,22 @@
 #!/usr/bin/env python
 #coding: utf-8
-import sys, re, os, string, webbrowser
+import sys, re, os, string, webbrowser, cgi
+
 
 try:
 	chapter = string.join(sys.argv[1].split(".")[0:-1])
 	data = open(sys.argv[1]).read()
 	outfile = chapter + ".html"
+	
+
 except Exception as e:	print (""" Usage: htmlcompile <file> """, e);	sys.exit(1)
 
 imgfolder = 'images'
 pats = { 'img'	: r"(\[image:([^\]]+)\])", 
 			'p'	: r"(\n)(\s*[^<].*)(\n{2}|$)", 
 			'h'	: r"^([^\n]*)\n",
-		'config0': r"(\[config\])",
-		'config1': r"(\[/config\])",
-		'list'	:	r"^\s*\*\s*([^\n]*)\n"
+		'config': r"(\[config\])(.+?)(\[/config\])",
+		'list'	: r"^\s*\*\s*([^\n]*)\n"
 }
 imgtypes = ['png', 'jpg', 'jpeg', 'bmp']
 
@@ -26,8 +28,7 @@ html = {
 </div> """, 
 		'p': r"\1<p>\2</p>\3", 
 		'h': r"<h1>\1</h1>\n\n", 
-		'code0': r"""<pre style="background:#f0f0f0; color:#000000; padding:13px;" class="">""",
-		'code1': r"""</pre>""",
+		'config': lambda m: """<pre style="background:#f0f0f0; color:#000000; padding:13px;" class=""> %s </pre>""" % cgi.escape(m.group(2).decode('utf-8')).encode('ascii', 'xmlcharrefreplace'),
 		'list' : r"""<li>\1</li>\n"""
 	}
 
@@ -59,9 +60,10 @@ print ("Compiling paragraphs")
 data,n  = re.subn(pats['p'], html['p'], data)
 print ("found ", n, " items")
 
+
 print ("Compiling code")
-data, n = re.subn(pats['config0'], html['code0'], data)
-data, n = re.subn(pats['config1'], html['code1'], data)
+pattern = re.compile(pats['config'], flags=re.DOTALL)
+data, n = re.subn(pattern, html['config'], data)
 print ("found ", n, " items")
 
 
