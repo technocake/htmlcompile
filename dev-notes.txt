@@ -1,0 +1,9 @@
+dev notes:
+
+html escaping: -- went for the cgi.escape with unicode mode.
+http://stackoverflow.com/questions/1061697/whats-the-easiest-way-to-escape-html-in-python
+
+2.6bug with re.subn not having flags param:
+	Had to use a compiled regexp with flags and pass that to re.subn.
+
+	re.subn(re.compile("pattern here"), ...)

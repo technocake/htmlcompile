@@ -13,9 +13,9 @@ except Exception as e:	print (""" Usage: htmlcompile <file> """, e);	sys.exit(1)
 
 imgfolder = 'images'
 pats = { 'img'	: r"(\[image:([^\]]+)\])", 
-			'p'	: r"(\n)(\s*[^<].*)(\n{2}|$)", 
+			'p'	: r"(\n)(\s*.+?)(\n{2}|$)", 
 			'h'	: r"^([^\n]*)\n",
-		'config': r"(\[config\])(.+?)(\[/config\])",
+		'config': re.compile(r"(\[config\])(.+?)(\[/config\])", flags=re.DOTALL),
 		'list'	: r"^\s*\*\s*([^\n]*)\n"
 }
 imgtypes = ['png', 'jpg', 'jpeg', 'bmp']
@@ -62,8 +62,7 @@ print ("found ", n, " items")
 
 
 print ("Compiling code")
-pattern = re.compile(pats['config'], flags=re.DOTALL)
-data, n = re.subn(pattern, html['config'], data)
+data, n = re.subn(pats['config'], html['config'], data)
 print ("found ", n, " items")
 
 
