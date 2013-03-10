@@ -66,7 +66,8 @@ data, n = re.subn(pats['p'], html['p'], data)
 
 # Putting config snipets back in.
 for triple in data2: 
-	data = re.sub("1238placeholder1293", ''.join(map(str, triple)), data, 1)
+	data = re.sub("1238placeholder1293", triple[0] + repr(triple[1])[1:-1] + triple[2], data, 1)
+
 print ("found ", n, " items")
 
 
