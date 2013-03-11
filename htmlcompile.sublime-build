@@ -1,0 +1,3 @@
+{
+	"cmd": ["python", "/Users/technocake/code/htmlcompile/htmlcompile.py", "$file"]
+}
